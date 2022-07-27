@@ -1,0 +1,26 @@
+[gd_resource type="Shader" format=2]
+
+[resource]
+code = "shader_type canvas_item;
+
+void fragment(){
+	float size_x = 1.0/float(textureSize(TEXTURE, 0).x);
+	float size_y = 1.0/float(textureSize(TEXTURE, 0).y);
+	
+	vec4 temp = texture(TEXTURE, UV + vec2(0, -size_y));
+	int up = (int(temp.r * 255.0 * temp.a) << 16) + (int(temp.g * 255.0 * temp.a) << 8) + int(temp.b * 255.0 * temp.a);
+	temp = texture(TEXTURE, UV + vec2(0, size_y));
+	int down = (int(temp.r * 255.0 * temp.a) << 16) + (int(temp.g * 255.0 * temp.a) << 8) + int(temp.b * 255.0 * temp.a);
+	temp = texture(TEXTURE, UV + vec2(-size_x, 0));
+	int left = (int(temp.r * 255.0 * temp.a) << 16) + (int(temp.g * 255.0 * temp.a) << 8) + int(temp.b * 255.0 * temp.a);
+	temp = texture(TEXTURE, UV + vec2(size_x, 0));
+	int right = (int(temp.r * 255.0 * temp.a) << 16) + (int(temp.g * 255.0 * temp.a) << 8) + int(temp.b * 255.0 * temp.a);
+	
+	int cur_max = max(max(max(up, down), max(left, right)) - 1, 0);
+	
+	float b = float(cur_max & 255) / 255.0;
+	float g = float(cur_max >> 8 & 255) / 255.0;
+	float r = float(cur_max >> 16 & 255) / 255.0;
+	
+	COLOR = vec4(r, g, b, texture(TEXTURE, UV).a);
+}"

@@ -1,0 +1,155 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://scripts/Player.gd" type="Script" id=1]
+[ext_resource path="res://scripts/GpuPathfinder.gd" type="Script" id=2]
+[ext_resource path="res://scripts/SimpleCamera.gd" type="Script" id=3]
+[ext_resource path="res://sprites/smile.png" type="Texture" id=4]
+[ext_resource path="res://sprites/tile.png" type="Texture" id=5]
+[ext_resource path="res://shaders/pathfinder.tres" type="Shader" id=6]
+[ext_resource path="res://scripts/Cave.gd" type="Script" id=7]
+[ext_resource path="res://sprites/pixels.png" type="Texture" id=8]
+[ext_resource path="res://scripts/EnemySpawner.gd" type="Script" id=9]
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 6.0
+
+[sub_resource type="CircleShape2D" id=11]
+
+[sub_resource type="ConvexPolygonShape2D" id=3]
+points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
+
+[sub_resource type="TileSet" id=1]
+0/name = "tile.png 0"
+0/texture = ExtResource( 5 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 16, 16 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape = SubResource( 3 )
+0/shape_one_way = false
+0/shape_one_way_margin = 1.0
+0/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 3 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+0/z_index = 0
+
+[sub_resource type="ShaderMaterial" id=8]
+shader = ExtResource( 6 )
+
+[sub_resource type="ImageTexture" id=7]
+flags = 6
+flags = 6
+
+[sub_resource type="ViewportTexture" id=9]
+viewport_path = NodePath("PathViewport")
+
+[sub_resource type="TileSet" id=10]
+0/name = "pixels.png 0"
+0/texture = ExtResource( 8 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 1, 1 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape_one_way = false
+0/shape_one_way_margin = 0.0
+0/shapes = [  ]
+0/z_index = 0
+1/name = "pixels.png 1"
+1/texture = ExtResource( 8 )
+1/tex_offset = Vector2( 0, 0 )
+1/modulate = Color( 1, 1, 1, 1 )
+1/region = Rect2( 1, 0, 1, 1 )
+1/tile_mode = 0
+1/occluder_offset = Vector2( 0, 0 )
+1/navigation_offset = Vector2( 0, 0 )
+1/shape_offset = Vector2( 0, 0 )
+1/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+1/shape_one_way = false
+1/shape_one_way_margin = 0.0
+1/shapes = [  ]
+1/z_index = 0
+
+[node name="GpuPathfinderExample" type="Node2D"]
+
+[node name="SimpleCamera" type="Camera2D" parent="."]
+current = true
+zoom = Vector2( 0.333, 0.333 )
+script = ExtResource( 3 )
+
+[node name="Player" type="KinematicBody2D" parent="."]
+position = Vector2( 2006, 2081 )
+collision_mask = 6
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="Player"]
+rotation = 1.5708
+texture = ExtResource( 4 )
+
+[node name="Area2D" type="Area2D" parent="Player"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Area2D"]
+shape = SubResource( 11 )
+
+[node name="Cave" type="TileMap" parent="."]
+tile_set = SubResource( 1 )
+cell_size = Vector2( 16, 16 )
+collision_layer = 4
+collision_mask = 0
+format = 1
+tile_data = PoolIntArray( 8061032, 0, 0, 8061033, 0, 0, 8061034, 0, 0, 8061035, 0, 0, 8061036, 0, 0, 8061039, 0, 0, 8061044, 0, 0, 8061045, 0, 0, 8061046, 0, 0, 8061048, 0, 0, 8061049, 0, 0, 8061050, 0, 0, 8061056, 0, 0, 8061057, 0, 0, 8061058, 0, 0, 8061060, 0, 0, 8061065, 0, 0, 8061069, 0, 0, 8061070, 0, 0, 8061072, 0, 0, 8061073, 0, 0, 8061074, 0, 0, 8126568, 0, 0, 8126570, 0, 0, 8126572, 0, 0, 8126574, 0, 0, 8126575, 0, 0, 8126581, 0, 0, 8126584, 0, 0, 8126586, 0, 0, 8126592, 0, 0, 8126594, 0, 0, 8126596, 0, 0, 8126600, 0, 0, 8126602, 0, 0, 8126604, 0, 0, 8126608, 0, 0, 8192104, 0, 0, 8192106, 0, 0, 8192108, 0, 0, 8192111, 0, 0, 8192117, 0, 0, 8192120, 0, 0, 8192122, 0, 0, 8192128, 0, 0, 8192129, 0, 0, 8192130, 0, 0, 8192132, 0, 0, 8192136, 0, 0, 8192137, 0, 0, 8192138, 0, 0, 8192140, 0, 0, 8192144, 0, 0, 8192145, 0, 0, 8257640, 0, 0, 8257642, 0, 0, 8257644, 0, 0, 8257647, 0, 0, 8257653, 0, 0, 8257656, 0, 0, 8257658, 0, 0, 8257664, 0, 0, 8257668, 0, 0, 8257672, 0, 0, 8257674, 0, 0, 8257676, 0, 0, 8257680, 0, 0, 8323176, 0, 0, 8323178, 0, 0, 8323180, 0, 0, 8323182, 0, 0, 8323183, 0, 0, 8323184, 0, 0, 8323189, 0, 0, 8323192, 0, 0, 8323193, 0, 0, 8323194, 0, 0, 8323200, 0, 0, 8323204, 0, 0, 8323205, 0, 0, 8323206, 0, 0, 8323208, 0, 0, 8323210, 0, 0, 8323213, 0, 0, 8323214, 0, 0, 8323216, 0, 0, 8323217, 0, 0, 8323218, 0, 0, 8650856, 0, 0, 8650857, 0, 0, 8650858, 0, 0, 8650859, 0, 0, 8650860, 0, 0, 8650863, 0, 0, 8650868, 0, 0, 8650869, 0, 0, 8650870, 0, 0, 8650872, 0, 0, 8650873, 0, 0, 8650874, 0, 0, 8650880, 0, 0, 8650881, 0, 0, 8650884, 0, 0, 8650885, 0, 0, 8650886, 0, 0, 8650888, 0, 0, 8650892, 0, 0, 8650893, 0, 0, 8650894, 0, 0, 8650896, 0, 0, 8650897, 0, 0, 8650898, 0, 0, 8650900, 0, 0, 8650901, 0, 0, 8650902, 0, 0, 8716392, 0, 0, 8716394, 0, 0, 8716396, 0, 0, 8716398, 0, 0, 8716400, 0, 0, 8716405, 0, 0, 8716408, 0, 0, 8716410, 0, 0, 8716416, 0, 0, 8716418, 0, 0, 8716420, 0, 0, 8716424, 0, 0, 8716428, 0, 0, 8716433, 0, 0, 8716436, 0, 0, 8781928, 0, 0, 8781930, 0, 0, 8781932, 0, 0, 8781936, 0, 0, 8781941, 0, 0, 8781944, 0, 0, 8781946, 0, 0, 8781952, 0, 0, 8781954, 0, 0, 8781956, 0, 0, 8781957, 0, 0, 8781960, 0, 0, 8781964, 0, 0, 8781965, 0, 0, 8781969, 0, 0, 8781972, 0, 0, 8781973, 0, 0, 8847464, 0, 0, 8847466, 0, 0, 8847468, 0, 0, 8847471, 0, 0, 8847477, 0, 0, 8847480, 0, 0, 8847482, 0, 0, 8847488, 0, 0, 8847490, 0, 0, 8847492, 0, 0, 8847496, 0, 0, 8847500, 0, 0, 8847505, 0, 0, 8847508, 0, 0, 8913000, 0, 0, 8913002, 0, 0, 8913004, 0, 0, 8913006, 0, 0, 8913007, 0, 0, 8913008, 0, 0, 8913013, 0, 0, 8913016, 0, 0, 8913017, 0, 0, 8913018, 0, 0, 8913024, 0, 0, 8913025, 0, 0, 8913028, 0, 0, 8913029, 0, 0, 8913030, 0, 0, 8913032, 0, 0, 8913033, 0, 0, 8913034, 0, 0, 8913036, 0, 0, 8913037, 0, 0, 8913038, 0, 0, 8913041, 0, 0, 8913044, 0, 0, 8913045, 0, 0, 8913046, 0, 0, 16711935, 0, 0 )
+script = ExtResource( 7 )
+generation_mode = 2
+noise_threshold = 0.06
+
+[node name="PathViewport" type="Viewport" parent="."]
+size = Vector2( 2, 2 )
+transparent_bg = true
+usage = 0
+render_target_v_flip = true
+render_target_update_mode = 3
+
+[node name="Terrain" type="Sprite" parent="PathViewport"]
+material = SubResource( 8 )
+texture = SubResource( 7 )
+centered = false
+
+[node name="GpuPathfinder" type="Node2D" parent="."]
+script = ExtResource( 2 )
+
+[node name="EnemySpawner" type="Node2D" parent="."]
+script = ExtResource( 9 )
+
+[node name="Minimap" type="CanvasLayer" parent="."]
+scale = Vector2( 3, 3 )
+transform = Transform2D( 3, 0, 0, 3, 0, 0 )
+
+[node name="Path" type="Sprite" parent="Minimap"]
+self_modulate = Color( 1, 1, 1, 0.392157 )
+z_as_relative = false
+texture = SubResource( 9 )
+centered = false
+
+[node name="EnemyMap" type="TileMap" parent="Minimap"]
+tile_set = SubResource( 10 )
+cell_size = Vector2( 1, 1 )
+format = 1
+
+[connection signal="body_entered" from="Player/Area2D" to="Player" method="_on_Area2D_body_entered"]
