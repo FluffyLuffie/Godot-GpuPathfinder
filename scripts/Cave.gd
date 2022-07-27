@@ -23,7 +23,6 @@ func generate_border() -> void:
 
 func _ready() -> void:
 	Globals.cave = self
-	Globals.tile_size = cell_size.x
 	
 	match generation_mode:
 		# keep from editor, update cave width/height
@@ -36,7 +35,7 @@ func _ready() -> void:
 		# empty cave
 		1:
 			clear()
-		# make a random cave if seed is -1, else use the seed
+		# generate cave from noise
 		2:
 			clear()
 			
